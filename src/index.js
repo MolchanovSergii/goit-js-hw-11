@@ -8,36 +8,49 @@ Notify.init({
 });
 
 const searchForm = document.querySelector('#search-form');
-const queryInput = document.querySelector('.query');
-const queryBtn = document.querySelector('.query-btn');
 const gallery = document.querySelector('.gallery');
+const moreBtn = document.querySelector('.load-more');
+
 
 const LINK = 'https://pixabay.com/api/?';
 const API_KEY = '35831610-a11fe96d6a1e2d9c789822419';
 const IMAGE_PARAM = 'image_type=photo&orientation=horizontal&safesearch=true';
 let currentPage = 1;
+let quantiyImage = 5;
 
 searchForm.addEventListener('submit', handlerQuery);
 
 function handlerQuery(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    let q = e.currentTarget.elements.searchQuery.value;
-    const URL = `${LINK}key=${API_KEY}&q=${q}&${IMAGE_PARAM}&$page=${currentPage}&per_page=40`;
+  let q = e.currentTarget.elements.searchQuery.value;
+  const URL = `${LINK}key=${API_KEY}&q=${q}&${IMAGE_PARAM}&$page=${currentPage}&per_page=${quantiyImage}`;
+  
+  axiosGet(URL)
+  moreBtn.style.display = 'block';  
+}
 
-    axios
-      .get(URL)
-      .then(resp => resp.data.hits)
-      .then(data => {
-        if (data.length === 0) {
-          Notify.failure(
-            'Sorry, there are no images matching your search query. Please try again.'
-          );
-          searchForm.reset();
-        }
-        gallery.insertAdjacentHTML('beforeend', markupGallery(data));
-      });
+moreBtn.addEventListener('click', onAddMoreImage)
 
+function onAddMoreImage(e) {
+  currentPage += 1;
+  axiosGet(URL);
+
+}
+
+async function axiosGet(url) {
+  return await axios(url)
+    .then(resp => {
+      if (resp.data.hits.length === 0) {
+        gallery.innerHTML = '';
+        Notify.failure(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+        searchForm.reset();
+      }
+      gallery.insertAdjacentHTML('beforeend', markupGallery(resp.data.hits));
+    })
+    .catch(err => Notify.failure(err.message));
 }
 
 
@@ -71,7 +84,5 @@ function markupGallery(arr) {
         </div>
     </div>`
     ).join('');
-        
-
 }
 
