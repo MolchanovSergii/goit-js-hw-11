@@ -9,11 +9,11 @@ Notify.init({
   closeButton: false,
 });
 
-const options = {
+const options_gallerySimple = {
   close: true,
+  closeButton: true,
+  navText: ['←', '→'],
 };
-
-const gallerySimple = new SimpleLightbox('.gallery__item a', options);
 
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
@@ -37,17 +37,19 @@ function handlerQuery(e) {
   axiosGet(URL)
 
   moreBtn.addEventListener('click', onAddMoreImage); 
+  gallerySimple.refresh();
 }
 
 function onAddMoreImage() {
   currentPage +=1;
   const URL = `${LINK}key=${API_KEY}&q=${q}&${IMAGE_PARAM}&page=${currentPage}&per_page=${quantityImage}`;
-  axiosGet(URL)
+  axiosGet(URL);
 }
 
 async function axiosGet(url) {
   return await axios(url)
     .then(resp => {
+      console.log(resp.data.totalHits);
       if (resp.data.hits.length === 0) {
         gallery.innerHTML = '';
         moreBtn.style.display = 'none';
@@ -55,15 +57,22 @@ async function axiosGet(url) {
         searchForm.reset();
         return
       }
-      if (resp.data.totalHits < currentPage * quantityImage) {
-        Notify.failure("We're sorry, but you've reached the end of search results");
+      if (resp.data.totalHits < currentPage * quantityImage)
+      {
         moreBtn.style.display = 'none';
+        Notify.failure(
+          "We're sorry, but you've reached the end of search results"
+        );
+        return;
       }
-      gallery.insertAdjacentHTML('beforeend', markupGallery(resp.data.hits));
-      Notify.success(`Hooray! We found ${resp.data.totalHits} images.`);
-      moreBtn.style.display = 'block';  
+        gallery.insertAdjacentHTML('beforeend', markupGallery(resp.data.hits));
+        Notify.success(`Hooray! We found ${resp.data.totalHits} images.`);
+        moreBtn.style.display = 'block';
+      
+        const gallerySimple = new SimpleLightbox('.gallery__item a',options_gallerySimple);
     })
     .catch(err => {
+      moreBtn.style.display = 'none';
       Notify.failure(err.message)
     });
   
@@ -101,8 +110,7 @@ function markupGallery(arr) {
       </div>
     </div>`
       )
-      .join('');
-      
+      .join('');    
 }
 
 
