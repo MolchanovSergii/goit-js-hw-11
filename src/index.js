@@ -17,6 +17,7 @@ const API_KEY = '35831610-a11fe96d6a1e2d9c789822419';
 const IMAGE_PARAM = 'image_type=photo&orientation=horizontal&safesearch=true';
 let currentPage = 1;
 let quantityImage = 5;
+let totalImage = 0;
 
 searchForm.addEventListener('submit', handlerQuery);
 
@@ -28,13 +29,17 @@ function handlerQuery(e) {
   
   axiosGet(URL)
   moreBtn.style.display = 'block';  
+
+  moreBtn.addEventListener('click', onAddMoreImage());
 }
 
-moreBtn.addEventListener('click', onAddMoreImage)
+
 
 function onAddMoreImage(e) {
   currentPage += 1;
-  axiosGet(URL);
+  totalImage += quantityImage;
+  console.log(q)
+  const URL = `${LINK}key=${API_KEY}&q=${q}&${IMAGE_PARAM}&$page=${currentPage}&per_page=${totalImage}`;
 
 }
 
