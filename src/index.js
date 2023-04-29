@@ -35,10 +35,10 @@ function handlerQuery(e) {
   const URL = `${LINK}key=${API_KEY}&q=${q}&${IMAGE_PARAM}&page=${currentPage}&per_page=${quantityImage}`;
   
   axiosGet(URL);
-  scroll();
 
   moreBtn.addEventListener('click', onAddMoreImage); 
   gallerySimple.refresh();
+ 
 }
 
 function onAddMoreImage() {
@@ -68,6 +68,7 @@ async function axiosGet(url) {
       }
         gallery.insertAdjacentHTML('beforeend', markupGallery(resp.data.hits));
         Notify.success(`Hooray! We found ${resp.data.totalHits} images.`);
+        scroll();
         moreBtn.style.display = 'block';
       
         const gallerySimple = new SimpleLightbox('.gallery__item a',options_gallerySimple);
@@ -111,4 +112,14 @@ function markupGallery(arr) {
     </div>`
       )
       .join('');    
+}
+
+function scroll() {
+  const { height: cardHeight } =
+    gallery.firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 200,
+    behavior: 'smooth',
+  });
 }
