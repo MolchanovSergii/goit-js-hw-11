@@ -1,6 +1,87 @@
 @import './common';
 @import './example';
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.list {
+    list-style: none;
+}
+
+.link {
+    text-decoration: none;
+}
+
+
 .load-more {
     display: none;
+}
+.search-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: blueviolet;
+}
+
+.query {
+    border-radius: 5px;
+}
+
+.load-more {
+    margin: 30px auto;
+    
+}
+
+.gallery{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 5px;
+}
+
+.photo-card {
+    width: 250px;
+    height: 190px;
+}
+
+.gallery__image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info {
+    display: flex;
+    font-size: 10px;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.info-item{
+    text-align: center;
 }
