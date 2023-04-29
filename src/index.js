@@ -1,13 +1,19 @@
 import axios from "axios";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-// import SimpleLightbox from "simplelightbox";
-// import 'simplelightbox/dist/simple-lightbox.min.css';
+import SimpleLightbox from "simplelightbox";
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 Notify.init({
   width: '300px',
-  position: 'right-bottom',
+  position: 'right-top',
   closeButton: false,
 });
+
+const options = {
+  close: true,
+};
+
+const gallerySimple = new SimpleLightbox('.gallery__item a', options);
 
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
@@ -17,7 +23,7 @@ const LINK = 'https://pixabay.com/api/?';
 const API_KEY = '35831610-a11fe96d6a1e2d9c789822419';
 const IMAGE_PARAM = 'image_type=photo&orientation=horizontal&safesearch=true';
 let currentPage = 1;
-let quantityImage = 4;
+let quantityImage = 40;
 let q = '';
 
 searchForm.addEventListener('submit', handlerQuery);
@@ -44,6 +50,7 @@ async function axiosGet(url) {
     .then(resp => {
       if (resp.data.hits.length === 0) {
         gallery.innerHTML = '';
+        moreBtn.style.display = 'none';
         Notify.failure('Sorry, there are no images matching your search query. Please try again.');
         searchForm.reset();
         return
@@ -53,9 +60,12 @@ async function axiosGet(url) {
         moreBtn.style.display = 'none';
       }
       gallery.insertAdjacentHTML('beforeend', markupGallery(resp.data.hits));
+      Notify.success(`Hooray! We found ${resp.data.totalHits} images.`);
       moreBtn.style.display = 'block';  
     })
-    .catch(err => Notify.failure(err.message));
+    .catch(err => {
+      Notify.failure(err.message)
+    });
   
 }
 
@@ -72,7 +82,9 @@ function markupGallery(arr) {
           downloads,
         }) =>
     `<div class="photo-card gallery__item">
+        <a href="${largeImageURL}">
           <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" />
+        </a>
       <div class="info">
           <p class="info-item">
             <b>Likes: ${likes}</b>
@@ -90,6 +102,7 @@ function markupGallery(arr) {
     </div>`
       )
       .join('');
+      
 }
 
 

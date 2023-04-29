@@ -67,6 +67,9 @@ img {
 .photo-card {
     width: 250px;
     height: 190px;
+    padding-bottom: 35px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
 }
 
 .gallery__image{
@@ -80,6 +83,7 @@ img {
     font-size: 10px;
     align-items: baseline;
     gap: 10px;
+    margin-top: 5px;
 }
 
 .info-item{
