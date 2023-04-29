@@ -16,7 +16,7 @@ const LINK = 'https://pixabay.com/api/?';
 const API_KEY = '35831610-a11fe96d6a1e2d9c789822419';
 const IMAGE_PARAM = 'image_type=photo&orientation=horizontal&safesearch=true';
 let currentPage = 1;
-let quantiyImage = 5;
+let quantityImage = 5;
 
 searchForm.addEventListener('submit', handlerQuery);
 
@@ -24,7 +24,7 @@ function handlerQuery(e) {
   e.preventDefault();
 
   let q = e.currentTarget.elements.searchQuery.value;
-  const URL = `${LINK}key=${API_KEY}&q=${q}&${IMAGE_PARAM}&$page=${currentPage}&per_page=${quantiyImage}`;
+  const URL = `${LINK}key=${API_KEY}&q=${q}&${IMAGE_PARAM}&$page=${currentPage}&per_page=${quantityImage}`;
   
   axiosGet(URL)
   moreBtn.style.display = 'block';  
