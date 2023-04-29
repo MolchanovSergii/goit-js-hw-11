@@ -34,7 +34,8 @@ function handlerQuery(e) {
   q = e.currentTarget.elements.searchQuery.value;
   const URL = `${LINK}key=${API_KEY}&q=${q}&${IMAGE_PARAM}&page=${currentPage}&per_page=${quantityImage}`;
   
-  axiosGet(URL)
+  axiosGet(URL);
+  scroll();
 
   moreBtn.addEventListener('click', onAddMoreImage); 
   gallerySimple.refresh();
@@ -49,7 +50,7 @@ function onAddMoreImage() {
 async function axiosGet(url) {
   return await axios(url)
     .then(resp => {
-      console.log(resp.data.totalHits);
+
       if (resp.data.hits.length === 0) {
         gallery.innerHTML = '';
         moreBtn.style.display = 'none';
@@ -57,8 +58,8 @@ async function axiosGet(url) {
         searchForm.reset();
         return
       }
-      if (resp.data.totalHits < currentPage * quantityImage)
-      {
+
+      if (resp.data.totalHits < currentPage * quantityImage) {
         moreBtn.style.display = 'none';
         Notify.failure(
           "We're sorry, but you've reached the end of search results"
@@ -74,8 +75,7 @@ async function axiosGet(url) {
     .catch(err => {
       moreBtn.style.display = 'none';
       Notify.failure(err.message)
-    });
-  
+    });  
 }
 
 function markupGallery(arr) {
@@ -112,5 +112,3 @@ function markupGallery(arr) {
       )
       .join('');    
 }
-
-
