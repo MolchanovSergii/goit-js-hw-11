@@ -30,7 +30,7 @@ function handlerQuery(e) {
   axiosGet(URL)
   moreBtn.style.display = 'block';  
 
-  moreBtn.addEventListener('click', onAddMoreImage());
+  moreBtn.addEventListener('click', onAddMoreImage);
 }
 
 
