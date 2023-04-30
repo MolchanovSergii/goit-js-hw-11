@@ -3,6 +3,8 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SimpleLightbox from "simplelightbox";
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
+import { scroll, markupGallery } from "./js/utilites";
+
 Notify.init({
   width: '300px',
   position: 'right-top',
@@ -79,47 +81,47 @@ async function axiosGet(url) {
     });  
 }
 
-function markupGallery(arr) {
-    return arr
-      .map(
-        ({
-          webformatURL,
-          largeImageURL,
-          tags,
-          likes,
-          views,
-          comments,
-          downloads,
-        }) =>
-    `<div class="photo-card gallery__item">
-        <a href="${largeImageURL}">
-          <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" />
-        </a>
-      <div class="info">
-          <p class="info-item">
-            <b>Likes: ${likes}</b>
-          </p>
-          <p class="info-item">
-            <b>Views: ${views}</b>
-          </p>
-          <p class="info-item">
-            <b>Comments: ${comments}</b>
-          </p>
-          <p class="info-item">
-            <b>Downloads: ${downloads}</b>
-          </p>
-      </div>
-    </div>`
-      )
-      .join('');    
-}
+// function markupGallery(arr) {
+//     return arr
+//       .map(
+//         ({
+//           webformatURL,
+//           largeImageURL,
+//           tags,
+//           likes,
+//           views,
+//           comments,
+//           downloads,
+//         }) =>
+//     `<div class="photo-card gallery__item">
+//         <a href="${largeImageURL}">
+//           <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" />
+//         </a>
+//       <div class="info">
+//           <p class="info-item">
+//             <b>Likes: ${likes}</b>
+//           </p>
+//           <p class="info-item">
+//             <b>Views: ${views}</b>
+//           </p>
+//           <p class="info-item">
+//             <b>Comments: ${comments}</b>
+//           </p>
+//           <p class="info-item">
+//             <b>Downloads: ${downloads}</b>
+//           </p>
+//       </div>
+//     </div>`
+//       )
+//       .join('');    
+// }
 
-function scroll() {
-  const { height: cardHeight } =
-    gallery.firstElementChild.getBoundingClientRect();
+// function scroll() {
+//   const { height: cardHeight } =
+//     gallery.firstElementChild.getBoundingClientRect();
 
-  window.scrollBy({
-    top: cardHeight * 200,
-    behavior: 'smooth',
-  });
-}
+//   window.scrollBy({
+//     top: cardHeight * 200,
+//     behavior: 'smooth',
+//   });
+// }
