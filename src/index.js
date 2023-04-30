@@ -15,6 +15,8 @@ const options = {
   navText: ['←', '→'],
 };
 
+const gallerySimple = new SimpleLightbox('.gallery__item a', options);
+
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
 const moreBtn = document.querySelector('.load-more');
@@ -71,7 +73,6 @@ async function axiosGet(url) {
         scroll();
         moreBtn.style.display = 'block';
       
-        const gallerySimple = new SimpleLightbox('.gallery__item a',options);
     })
     .catch(err => {
       moreBtn.style.display = 'none';
