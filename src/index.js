@@ -11,7 +11,7 @@ Notify.init({
 
 const options = {
   close: true,
-  closeButton: true,
+  closeButton: '*',
   navText: ['←', '→'],
 };
 
