@@ -15,7 +15,7 @@ const options = {
   navText: ['←', '→'],
 };
 
-const gallerySimple = new SimpleLightbox('.gallery__item a', options);
+const gallerySimple = new SimpleLightbox('.photo-card a', options);
 
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
@@ -24,7 +24,7 @@ const moreBtn = document.querySelector('.load-more');
 const LINK = 'https://pixabay.com/api/?';
 const API_KEY = '35831610-a11fe96d6a1e2d9c789822419';
 const IMAGE_PARAM = 'image_type=photo&orientation=horizontal&safesearch=true';
-let currentPage = 1;
+let currentPage = 0;
 let quantityImage = 40;
 let q = '';
 
@@ -32,6 +32,10 @@ searchForm.addEventListener('submit', handlerQuery);
 
 function handlerQuery(e) {
   e.preventDefault();
+
+  moreBtn.style.display = 'none';
+  gallery.innerHTML = '';
+  currentPage = 1;
 
   q = e.currentTarget.elements.searchQuery.value;
   const URL = `${LINK}key=${API_KEY}&q=${q}&${IMAGE_PARAM}&page=${currentPage}&per_page=${quantityImage}`;
@@ -62,11 +66,11 @@ async function axiosGet(url) {
       }
 
       if (resp.data.totalHits < currentPage * quantityImage) {
-        moreBtn.style.display = 'none';
+        // moreBtn.style.display = 'none';
         Notify.failure(
           "We're sorry, but you've reached the end of search results"
         );
-        return;
+         moreBtn.style.display = 'none';
       }
         gallery.insertAdjacentHTML('beforeend', markupGallery(resp.data.hits));
         Notify.success(`Hooray! We found ${resp.data.totalHits} images.`);
@@ -120,7 +124,7 @@ function scroll() {
     gallery.firstElementChild.getBoundingClientRect();
 
   window.scrollBy({
-    top: cardHeight * 200,
+    top: cardHeight * 2,
     behavior: 'smooth',
   });
 }
