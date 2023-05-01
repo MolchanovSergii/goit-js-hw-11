@@ -9,13 +9,7 @@ Notify.init({
   closeButton: false,
 });
 
-const options = {
-  close: true,
-  closeButton: '*',
-  navText: ['←', '→'],
-};
-
-const gallerySimple = new SimpleLightbox('.gallery__item a', options);
+const options = {};
 
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
@@ -73,6 +67,7 @@ async function axiosGet(url) {
         gallery.insertAdjacentHTML('beforeend', markupGallery(resp.data.hits));
         Notify.success(`Hooray! We found ${resp.data.totalHits} images.`);
         scroll();
+        const gallerySimple = new SimpleLightbox('.gallery__item a', options);
         moreBtn.style.display = 'block';
       
     })
