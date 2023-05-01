@@ -15,7 +15,7 @@ const options = {
   navText: ['←', '→'],
 };
 
-const gallerySimple = new SimpleLightbox('.photo-card a', options);
+const gallerySimple = new SimpleLightbox('.gallery__item a', options);
 
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
@@ -43,8 +43,7 @@ function handlerQuery(e) {
   axiosGet(URL);
 
   moreBtn.addEventListener('click', onAddMoreImage); 
-  gallerySimple.refresh();
- 
+  gallerySimple.refresh(); 
 }
 
 function onAddMoreImage() {
@@ -66,7 +65,6 @@ async function axiosGet(url) {
       }
 
       if (resp.data.totalHits < currentPage * quantityImage) {
-        // moreBtn.style.display = 'none';
         Notify.failure(
           "We're sorry, but you've reached the end of search results"
         );
