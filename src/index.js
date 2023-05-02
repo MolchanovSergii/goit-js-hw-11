@@ -42,33 +42,32 @@ function onAddMoreImage() {
   currentPage +=1;
   const URL = `${LINK}key=${API_KEY}&q=${q}&${IMAGE_PARAM}&page=${currentPage}&per_page=${quantityImage}`;
   axiosGet(URL);
+  
 }
 
 async function axiosGet(url) {
   return await axios(url)
     .then(resp => {
-
-      moreBtn.style.display = 'none';
-
+      
       if (resp.data.hits.length === 0) {
+        moreBtn.style.visibility = 'hidden';
         gallery.innerHTML = '';
         Notify.failure('Sorry, there are no images matching your search query. Please try again.');
         searchForm.reset();
         return
       }
 
-      if (resp.data.hits.length < quantityImage) {       
-        Notify.failure(
-          "We're sorry, but you've reached the end of search results"
-        );
-        moreBtn.style.visibility = 'hidden'; 
-      }
-        gallery.insertAdjacentHTML('beforeend', markupGallery(resp.data.hits));
-        Notify.success(`Hooray! We found ${resp.data.totalHits} images.`);
-        scroll();
-        const gallerySimple = new SimpleLightbox('.gallery__item a', options);
-        moreBtn.style.display = 'block';
-        gallerySimple.refresh(); 
+      gallery.insertAdjacentHTML('beforeend', markupGallery(resp.data.hits));
+      Notify.success(`Hooray! We found ${resp.data.totalHits} images.`);
+      scroll();
+      moreBtn.style.visibility = 'visible';
+      const gallerySimple = new SimpleLightbox('.gallery__item a', options);
+      gallerySimple.refresh(); 
+      
+      if (resp.data.hits.length < quantityImage) {
+         Notify.failure("We're sorry, but you've reached the end of search results");
+        moreBtn.style.visibility = 'hidden';
+      }    
     })
     .catch(err => {
       moreBtn.style.visibility = 'hidden'; 
