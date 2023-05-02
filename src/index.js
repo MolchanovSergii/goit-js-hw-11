@@ -27,7 +27,6 @@ searchForm.addEventListener('submit', handlerQuery);
 function handlerQuery(e) {
   e.preventDefault();
 
-  moreBtn.style.display = 'none';
   gallery.innerHTML = '';
   currentPage = 1;
 
@@ -37,7 +36,6 @@ function handlerQuery(e) {
   axiosGet(URL);
 
   moreBtn.addEventListener('click', onAddMoreImage); 
-  gallerySimple.refresh(); 
 }
 
 function onAddMoreImage() {
@@ -50,29 +48,30 @@ async function axiosGet(url) {
   return await axios(url)
     .then(resp => {
 
+      moreBtn.style.display = 'none';
+
       if (resp.data.hits.length === 0) {
         gallery.innerHTML = '';
-        moreBtn.style.display = 'none';
         Notify.failure('Sorry, there are no images matching your search query. Please try again.');
         searchForm.reset();
         return
       }
 
-      if (resp.data.totalHits < currentPage * quantityImage) {
+      if (resp.data.hits.length < quantityImage) {       
         Notify.failure(
           "We're sorry, but you've reached the end of search results"
         );
-         moreBtn.style.display = 'none';
+        moreBtn.style.visibility = 'hidden'; 
       }
         gallery.insertAdjacentHTML('beforeend', markupGallery(resp.data.hits));
         Notify.success(`Hooray! We found ${resp.data.totalHits} images.`);
         scroll();
         const gallerySimple = new SimpleLightbox('.gallery__item a', options);
         moreBtn.style.display = 'block';
-      
+        gallerySimple.refresh(); 
     })
     .catch(err => {
-      moreBtn.style.display = 'none';
+      moreBtn.style.visibility = 'hidden'; 
       Notify.failure(err.message)
     });  
 }

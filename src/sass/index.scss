@@ -36,7 +36,9 @@ img {
 
 .load-more {
     display: none;
+    margin: 30px auto;
 }
+
 .search-form {
     display: flex;
     align-items: center;
@@ -49,11 +51,6 @@ img {
 
 .query {
     border-radius: 5px;
-}
-
-.load-more {
-    margin: 30px auto;
-    
 }
 
 .gallery{
