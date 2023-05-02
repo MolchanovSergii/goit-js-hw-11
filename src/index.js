@@ -31,7 +31,7 @@ function handlerQuery(e) {
   currentPage = 1;
 
   q = e.currentTarget.elements.searchQuery.value;
-  const URL = `${LINK}key=${API_KEY}&q=${q}&${IMAGE_PARAM}&page=${currentPage}&per_page=${quantityImage}`;
+  const URL = `${LINK}key=${API_KEY}&q=${q.trim()}&${IMAGE_PARAM}&page=${currentPage}&per_page=${quantityImage}`;
   
   axiosGet(URL);
 
