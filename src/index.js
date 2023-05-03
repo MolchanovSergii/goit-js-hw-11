@@ -10,6 +10,7 @@ Notify.init({
 });
 
 const options = {};
+const gallerySimple = new SimpleLightbox('.gallery__item a', options);
 
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
@@ -61,7 +62,6 @@ async function axiosGet(url) {
       Notify.success(`Hooray! We found ${resp.data.totalHits} images.`);
       scroll();
       moreBtn.style.visibility = 'visible';
-      const gallerySimple = new SimpleLightbox('.gallery__item a', options);
       gallerySimple.refresh(); 
       
       if (resp.data.hits.length < quantityImage) {
